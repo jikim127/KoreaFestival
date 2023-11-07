@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <!-- Title -->
+    <title>Local Event Info</title>
+
+    <!-- Google Font -->
+    <link th:href="@{/https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&display=swap}"
+          rel="stylesheet">
+    <link th:href="@{/https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap}" rel="stylesheet">
+
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+
+    <!-- Js Plugins -->
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{js/jquery.countdown.min.js}"></script>
+    <script th:src="@{js/jquery.slicknav.js}"></script>
+    <script th:src="@{js/owl.carousel.min.js}"></script>
+    <script th:src="@{js/main.js}"></script>
+
+    <th:block layout:fragment="script"/>
+    <th:block layout:fragment="css"/>
+
+</head>
+
+<body>
+
+    <div th:replace="~{fragments/header::header}"></div>
+
+    <div layout:fragment="content" class="content">
+    </div>
+
+    <div th:replace="~{fragments/footer::footer}"></div>
+
+</body>
+
+</html>
