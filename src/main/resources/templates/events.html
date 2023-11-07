@@ -3,7 +3,7 @@
       xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
       layout:decorate="~{layout/layout}">
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <div layout:fragment="content">
 
@@ -26,22 +26,24 @@
     </section>
     <!-- Breadcrumb Section End -->
 
+    <div id="result"></div>
+
     <!-- Speaker Section Begin -->
     <section class="speaker-section spad">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6" id="festival-items" th:each="item : ${festivalItems}">
+                <div class="col-sm-6">
                     <div class="speaker-item">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="si-pic">
-                                    <img th:src="@{'/path/to/speaker-image/'}" alt="Speaker Image">
+                                    <a id="target" th:href="@{'events'}" alt="Speaker Image"></a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="si-text">
                                     <div class="si-title">
-                                        <h4 th:text="${item.fstvlNm}"></h4>
+                                        <h4></h4>
                                         <span>Speaker</span>
                                     </div>
                                     <div class="si-social">
@@ -122,57 +124,45 @@
 </div>
 
 
-<script th:inline="javascript">
+<!--<script th:inline="javascript">-->
 
-    // JavaScript를 사용하여 RESTful API에 요청을 보냅니다
-    // jQuery를 사용한 예제입니다. jQuery를 먼저 로드해야 합니다.
-    // jQuery를 로드하려면 <script> 태그를 사용하여 jQuery를 추가합니다.
+<script layout:fragment="script" th:inline="javascript">
 
-    $(document).ready(function() {
-        $.ajax({
-            url: "/jsonapi",
-            type: "GET",
-            success: function(festivalItems) {
-                var festivalItems = festivalItems;
+        // API 요청을 수행하는 JavaScript 코드
+        const apiUrl = "http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=EHW%2BrhIh278vOom%2FpjJ5ea7fUNc7nBjhuHwjzAiIHyg04uFczluezxnH%2BMdt6kl1NtoCDggBgfS2HLmGYFQ8WA%3D%3D&pageNo=1&numOfRows=5&type=json";
 
-                // Speaker Section을 동적으로 생성
-                var festivalItemsContainer = $("#festival-items");
-                festivalItemsContainer.empty();
+        console.info("----url 만들기 성공---" + apiUrl);
 
-                $.each(festivalItems, function(index, item) {
-                    var speakerItem = $("<div>").addClass("speaker-item");
-                    var row = $("<div>").addClass("row");
-                    var col1 = $("<div>").addClass("col-lg-6");
-                    var col2 = $("<div>").addClass("col-lg-6");
-                    var siPic = $("<div>").addClass("si-pic");
-                    var image = $("<img>").attr("src", "/path/to/speaker-image/").attr("alt", "Speaker Image");
-                    var siText = $("<div>").addClass("si-text");
-                    var siTitle = $("<div>").addClass("si-title");
-                    var h4 = $("<h4>").text(item.fstvlNm);
-                    var span = $("<span>").text("Speaker");
-                    var siSocial = $("<div>").addClass("si-social");
-                    var p = $("<p>").text(item.fstvlStartDate);
+        fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // JSON 데이터에서 모든 항목을 처리
+            const items = data.response.body.items;
 
-                    // HTML 요소를 계층적으로 조립
-                    siTitle.append(h4);
-                    siTitle.append(span);
-                    siText.append(siTitle);
-                    siText.append(siSocial);
-                    siText.append(p);
-                    col1.append(siPic.append(image));
-                    col2.append(siText);
-                    row.append(col1);
-                    row.append(col2);
-                    speakerItem.append(row);
-                    festivalItemsContainer.append(speakerItem);
+            if (items && items.length > 0) {
+                const resultElement = document.getElementById("result");
+
+                // 모든 items 배열을 루프로 처리
+                items.forEach(item => {
+                    const fstvlNm = item.fstvlNm;
+                    const opar = item.opar;
+                    const fstvlStartDate = item.fstvlStartDate;
+                    const fstvlEndDate = item.fstvlEndDate;
+                    const fstvlCo = item.fstvlCo;
+                    const rdnmadr = item.rdnmadr;
+
+                    // 결과를 HTML에 추가
+                    const itemElement = document.createElement("div");
+                    itemElement.innerHTML = `<p>fstvlNm: ${fstvlNm}</p><p>opar: ${opar}</p><p>fstvlStartDate: ${fstvlStartDate}</p><p>fstvlEndDate: ${fstvlEndDate}</p><p>fstvlCo: ${fstvlCo}</p><p>rdnmadr: ${rdnmadr}</p>`;
+                    resultElement.appendChild(itemElement);
                 });
-            },
-            error: function() {
-                console.log("API 호출 중 오류 발생");
+            } else {
+                console.error("API 응답에 데이터 없음.");
             }
-        });
-    });
-    </script>
-
+        })
+            .catch(error => {
+                console.error("API 요청 중 오류 발생:", error);
+            });
+</script>
 
 </html>

@@ -3,6 +3,8 @@ package com.example.localevents.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +23,8 @@ import java.util.List;
 @RestController
 @Log4j2
 @ResponseBody
+@Getter
+@Setter
 @RequestMapping(value = "/jsonapi", method = RequestMethod.GET)
 public class RestTestController {
 
@@ -73,6 +77,7 @@ public class RestTestController {
             // 모델에 festivalItems를 추가
             model.addAttribute("festivalItems", festivalItems);
             log.info("----festivalItems2 : " + festivalItems);
+            log.info("--festivalItem.getFstvlNm : "+ festivalItem.getFstvlNm());
 
         } catch (Exception e) {
             e.printStackTrace();
