@@ -1,14 +1,18 @@
 package com.example.localevents.controller;
 
+import com.example.localevents.entity.FestivalItem;
+import com.example.localevents.service.FestivalService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +23,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
 @ResponseBody
 @Getter
 @Setter
+@RequiredArgsConstructor
 @RequestMapping(value = "/jsonapi", method = RequestMethod.GET)
-public class RestTestController {
+public class FestivalController {
+
+    private final FestivalService festivalService;
 
     /**
      * REST API 호출하기
@@ -74,10 +82,24 @@ public class RestTestController {
 
             log.info("----festivalItems1 : " + festivalItems);
 
-            // 모델에 festivalItems를 추가
-            model.addAttribute("festivalItems", festivalItems);
-            log.info("----festivalItems2 : " + festivalItems);
-            log.info("--festivalItem.getFstvlNm : "+ festivalItem.getFstvlNm());
+            // FestivalItemEntity로 변환하여 데이터베이스에 저장
+            List<FestivalItem> festivalItemEntities = festivalItems.stream()
+                    .map(festivalItemEntity -> {
+                        FestivalItem entity = new FestivalItem();
+                        entity.setFstvlNm(festivalItemEntity.getFstvlNm());
+                        entity.setOpar(festivalItemEntity.getOpar());
+                        entity.setFstvlStartDate(festivalItemEntity.getFstvlStartDate());
+                        entity.setFstvlEndDate(festivalItemEntity.getFstvlEndDate());
+                        entity.setFstvlCo(festivalItemEntity.getFstvlCo());
+                        entity.setRdnmadr(festivalItemEntity.getRdnmadr());
+                        entity.setHomepageUrl(festivalItemEntity.getHomepageUrl());
+                        entity.setRelateInfo(festivalItemEntity.getRelateInfo());
+                        return entity;
+                    })
+                    .collect(Collectors.toList());
+
+            // 데이터베이스에 저장
+            festivalService.saveAllFestivalItems(festivalItemEntities);
 
         } catch (Exception e) {
             e.printStackTrace();

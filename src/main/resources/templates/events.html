@@ -14,10 +14,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-text">
-                        <h2>Feature Speakers</h2>
+                        <h2>축제 공연 행사</h2>
                         <div class="bt-option">
-                            <a href="#">Home</a>
-                            <span>Our Speakers</span>
+                            <a th:href="@{/index}">Home</a>
+                            <span>축제공연행사</span>
                         </div>
                     </div>
                 </div>
@@ -32,24 +32,25 @@
     <section class="speaker-section spad">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
+                <div th:if="${festivalItemList} != null" th:each="festivalList : ${festivalItemList}" class="col-sm-6" >
                     <div class="speaker-item">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="si-pic">
-                                    <a id="target" th:href="@{'events'}" alt="Speaker Image"></a>
+<!--                                    <img th:src=""  alt="Speaker Image"></th:scr>-->
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="si-text">
                                     <div class="si-title">
-                                        <h4></h4>
-                                        <span>Speaker</span>
+                                        <h4 th:text="${festivalList.getFstvlNm()}"></h4>
+                                        <span th:text="${festivalList.getFstvlStartDate()}"></span>
+                                        <span th:text="${festivalList.getFstvlEndDate()}"></span>
                                     </div>
                                     <div class="si-social">
                                         <!-- Add social links if available -->
                                     </div>
-                                    <p></p>
+                                    <p th:text="${festivalList.getFstvlCo()}"></p>
                                 </div>
                             </div>
                         </div>
@@ -126,43 +127,43 @@
 
 <!--<script th:inline="javascript">-->
 
-<script layout:fragment="script" th:inline="javascript">
+<!--<script layout:fragment="script" th:inline="javascript">-->
 
-        // API 요청을 수행하는 JavaScript 코드
-        const apiUrl = "http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=EHW%2BrhIh278vOom%2FpjJ5ea7fUNc7nBjhuHwjzAiIHyg04uFczluezxnH%2BMdt6kl1NtoCDggBgfS2HLmGYFQ8WA%3D%3D&pageNo=1&numOfRows=5&type=json";
+<!--        // API 요청을 수행하는 JavaScript 코드-->
+<!--        const apiUrl = "http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=EHW%2BrhIh278vOom%2FpjJ5ea7fUNc7nBjhuHwjzAiIHyg04uFczluezxnH%2BMdt6kl1NtoCDggBgfS2HLmGYFQ8WA%3D%3D&pageNo=1&numOfRows=3&type=json";-->
 
-        console.info("----url 만들기 성공---" + apiUrl);
+<!--        console.info("&#45;&#45;&#45;&#45;url 만들기 성공-&#45;&#45;" + apiUrl);-->
 
-        fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            // JSON 데이터에서 모든 항목을 처리
-            const items = data.response.body.items;
+<!--        fetch(apiUrl)-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            // JSON 데이터에서 모든 항목을 처리-->
+<!--            const items = data.response.body.items;-->
 
-            if (items && items.length > 0) {
-                const resultElement = document.getElementById("result");
+<!--            if (items && items.length > 0) {-->
+<!--                const resultElement = document.getElementById("result");-->
 
-                // 모든 items 배열을 루프로 처리
-                items.forEach(item => {
-                    const fstvlNm = item.fstvlNm;
-                    const opar = item.opar;
-                    const fstvlStartDate = item.fstvlStartDate;
-                    const fstvlEndDate = item.fstvlEndDate;
-                    const fstvlCo = item.fstvlCo;
-                    const rdnmadr = item.rdnmadr;
+<!--                // 모든 items 배열을 루프로 처리-->
+<!--                items.forEach(item => {-->
+<!--                    const fstvlNm = item.fstvlNm;-->
+<!--                    const opar = item.opar;-->
+<!--                    // const fstvlStartDate = item.fstvlStartDate;-->
+<!--                    // const fstvlEndDate = item.fstvlEndDate;-->
+<!--                    // const fstvlCo = item.fstvlCo;-->
+<!--                    // const rdnmadr = item.rdnmadr;-->
 
-                    // 결과를 HTML에 추가
-                    const itemElement = document.createElement("div");
-                    itemElement.innerHTML = `<p>fstvlNm: ${fstvlNm}</p><p>opar: ${opar}</p><p>fstvlStartDate: ${fstvlStartDate}</p><p>fstvlEndDate: ${fstvlEndDate}</p><p>fstvlCo: ${fstvlCo}</p><p>rdnmadr: ${rdnmadr}</p>`;
-                    resultElement.appendChild(itemElement);
-                });
-            } else {
-                console.error("API 응답에 데이터 없음.");
-            }
-        })
-            .catch(error => {
-                console.error("API 요청 중 오류 발생:", error);
-            });
-</script>
+<!--                    // 결과를 HTML에 추가-->
+<!--                    const itemElement = document.createElement("div");-->
+<!--                    itemElement.innerHTML = `<p>fstvlNm: ${fstvlNm}</p><p>opar: ${opar}</p>`;-->
+<!--                    resultElement.appendChild(itemElement);-->
+<!--                });-->
+<!--            } else {-->
+<!--                console.error("API 응답에 데이터 없음.");-->
+<!--            }-->
+<!--        })-->
+<!--            .catch(error => {-->
+<!--                console.error("API 요청 중 오류 발생:", error);-->
+<!--            });-->
+<!--</script>-->
 
 </html>

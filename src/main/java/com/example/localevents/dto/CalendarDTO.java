@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-public class Calendar {
+public class CalendarDTO {
 
     private Long calNo;
 

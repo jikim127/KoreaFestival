@@ -3,6 +3,47 @@
       xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
       layout:decorate="~{layout/layout}">
 
+<head>
+<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+
+</head>
+
+<body>
+
+<!--<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js">-->
+
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+
+<!--    // Toast UI Calendar 생성-->
+<!--    const Calendar = tui.Calendar;-->
+
+<!--    // Toast UI Calendar 구성하기-->
+<!--    const calendar = new Calendar('#calendar', {-->
+<!--        defaultView: 'month',-->
+<!--        template: {-->
+<!--            time(event) {-->
+<!--                const {start, end, title} = event;-->
+<!--                return `<span style="color: white;">${formatTime(start)}~${formatTime(end)} ${title}</span>`;-->
+<!--            },-->
+<!--            allday(event) {-->
+<!--                return `<span style="color: gray;">${event.title}</span>`;-->
+<!--            },-->
+<!--        },-->
+<!--        calendars: [-->
+<!--            {-->
+<!--                id: 'cal1',-->
+<!--                name: 'Personal',-->
+<!--                backgroundColor: '#03bd9e',-->
+<!--            },-->
+<!--            {-->
+<!--                id: 'cal2',-->
+<!--                name: 'Work',-->
+<!--                backgroundColor: '#00a9ff',-->
+<!--            },-->
+<!--        ],-->
+<!--    });-->
+<!--    });-->
+<!--</script>-->
 
 
 <div layout:fragment="content">
@@ -24,6 +65,15 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
+
+
+    <!-- TOAST Calendar UI 적용 -->
+    <div id="calendar" style="height: 800px"></div>
+
+
+
+
+
 
     <!-- Schedule Table Section Begin -->
     <section class="schedule-table-section spad">
@@ -79,21 +129,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="event-time">week1</td>
-                                                <td class="break hover-bg">
-                                                    <h5>WEEK1 - 7일 날짜순 나열</h5>
-                                                </td>
-                                                <td class="break hover-bg">
-                                                    <h5>Coffee Break</h5>
-                                                </td>
-                                                <td class="break hover-bg">
-                                                    <h5>Coffee Break</h5>
-                                                </td>
-                                                <td class="break hover-bg">
-                                                    <h5>Coffee Break</h5>
-                                                </td>
-                                            </tr>
+                                            <th:block th:each="festivalList : ${festivalItemList}">
+                                                <tr>
+                                                    <td class="event-time">week1</td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:text="${#dates.createNow()}"></h5>
+                                                    </td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    </td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    </td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    <td class="break hover-bg">
+                                                    <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    </td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    </td>
+                                                    <td class="break hover-bg">
+                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
+                                                    </td>
+                                                    </th:block>
+                                                </tr>
+                                            </th:block>
                                             <tr>
                                                 <td class="event-time">week2</td>
                                                 <td class="hover-bg">
@@ -201,5 +262,40 @@
 
 
 </div>
+
+
+<!-- 시작일을 설정하고 날짜를 표시하는 함수 -->
+<script th:inline="javascript">
+    function setStartDateAndDates(startDateClass, dateClass) {
+        const startDateCell = document.querySelector(startDateClass); // 시작일이 표시될 셀
+        const dateCells = document.querySelectorAll(dateClass); // 날짜를 표시할 셀들
+
+        if (startDateCell) {
+            const startDate = new Date(); // 오늘을 시작일로 설정
+            const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+
+            // 시작일 셀에 오늘의 날짜를 표시
+            const dayOfWeek = weekDays[startDate.getDay()]; // 오늘의 요일
+            const dayOfMonth = startDate.getDate(); // 오늘의 날짜
+            startDateCell.textContent = `WEEK1 - ${dayOfWeek} ${dayOfMonth}일`;
+
+            // 날짜를 추가
+            dateCells.forEach(function(dateCell, index) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + index);
+
+                const dayOfWeek = weekDays[date.getDay()]; // 요일
+                const dayOfMonth = date.getDate(); // 날짜
+
+                dateCell.textContent = `WEEK1 - ${dayOfWeek} ${dayOfMonth}일`;
+            });
+        }
+    }
+
+    setStartDateAndDates('.event-time', '.break.hover-bg', 'h5');
+</script>
+
+
+</body>
 
 </html>
