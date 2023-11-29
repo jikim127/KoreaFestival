@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
+      layout:decorate="~{layout/layout}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+
+    .weekly-row{
+        width: 100%;
+    }
+
+</style>
+
+</head>
+
+
+<div layout:fragment="content">
+
+<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>축제 공연 행사</h2>
+                        <div class="bt-option">
+                            <a th:href="@{/index}">Home</a>
+                            <span>축제공연행사</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <div id="result"></div>
+
+    <!-- Speaker Section Begin -->
+    <section class="speaker-section spad">
+        <h4>이번주</h4>
+        <div class="container">
+            <div class="row">
+                <div th:if="${festivalItemList} != null" th:each="festivalList : ${festivalItemList}" class="col-sm-6" >
+                    <div class="speaker-item">
+                        <div class="weekly-row">
+                            <div class="col-lg-6">
+                                <div class="si-pic">
+<!--                                    <img th:src=""  alt="Speaker Image"></th:scr>-->
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="si-text">
+                                    <div class="si-title">
+                                        <h4 th:text="${festivalList.getFstvlNm()}"></h4>
+                                        <span th:text="${festivalList.getFstvlStartDate()}"></span>
+                                        <span th:text="${festivalList.getFstvlEndDate()}"></span>
+                                    </div>
+                                    <div class="si-social">
+                                        <!-- Add social links if available -->
+                                    </div>
+                                    <p th:text="${festivalList.getFstvlCo()}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more">
+                <a href="#" class="primary-btn">Load More</a>
+            </div>
+        </div>
+
+        <h4>다음주</h4>
+        <div class="container">
+            <div class="row">
+                <div th:if="${festivalItemList} != null" th:each="festivalList : ${festivalItemList}" class="col-sm-6" >
+                    <div class="speaker-item">
+                        <div class="weekly-row">
+                            <div class="col-lg-6">
+                                <div class="si-pic">
+                                    <!--                                    <img th:src=""  alt="Speaker Image"></th:scr>-->
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="si-text">
+                                    <div class="si-title">
+                                        <h4 th:text="${festivalList.getFstvlNm()}"></h4>
+                                        <span th:text="${festivalList.getFstvlStartDate()}"></span>
+                                        <span th:text="${festivalList.getFstvlEndDate()}"></span>
+                                    </div>
+                                    <div class="si-social">
+                                        <!-- Add social links if available -->
+                                    </div>
+                                    <p th:text="${festivalList.getFstvlCo()}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="load-more">
+                <a href="#" class="primary-btn">Load More</a>
+            </div>
+        </div>
+    </section>
+    <!-- Speaker Section End -->
+
+    <!-- Newslatter Section Begin -->
+    <section class="newslatter-section about-newslatter">
+        <div class="container">
+            <div class="newslatter-inner set-bg" data-setbg="img/newslatter-bg.jpg">
+                <div class="ni-text">
+                    <h3>Subscribe Newsletter</h3>
+                    <p>Subscribe to our newsletter and don’t miss anything</p>
+                </div>
+                <form action="#" class="ni-form">
+                    <input type="text" placeholder="Your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Newslatter Section End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-title">
+                        <h2>Location</h2>
+                        <p>Get directions to our event center</p>
+                    </div>
+                    <div class="cs-text">
+                        <div class="ct-address">
+                            <span>Address:</span>
+                            <p>01 Pascale Springs Apt. 339, NY City <br />United State</p>
+                        </div>
+                        <ul>
+                            <li>
+                                <span>Phone:</span>
+                                (+12)-345-67-8910
+                            </li>
+                            <li>
+                                <span>Email:</span>
+                                info.colorlib@gmail.com
+                            </li>
+                        </ul>
+                        <div class="ct-links">
+                            <span>Website:</span>
+                            <p>https://conference.colorlib.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="cs-map">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52901.38789495531!2d-118.19465514866786!3d34.03523211493029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2cf71ad83ff9f%3A0x518b28657f4543b7!2sEast%20Los%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1579763856144!5m2!1sen!2sbd"
+                            height="400" style="border:0;" allowfullscreen=""></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+</div>
+
+
+<!--<script th:inline="javascript">-->
+
+<!--<script layout:fragment="script" th:inline="javascript">-->
+
+<!--        // API 요청을 수행하는 JavaScript 코드-->
+<!--        const apiUrl = "http://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api?serviceKey=EHW%2BrhIh278vOom%2FpjJ5ea7fUNc7nBjhuHwjzAiIHyg04uFczluezxnH%2BMdt6kl1NtoCDggBgfS2HLmGYFQ8WA%3D%3D&pageNo=1&numOfRows=3&type=json";-->
+
+<!--        console.info("&#45;&#45;&#45;&#45;url 만들기 성공-&#45;&#45;" + apiUrl);-->
+
+<!--        fetch(apiUrl)-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            // JSON 데이터에서 모든 항목을 처리-->
+<!--            const items = data.response.body.items;-->
+
+<!--            if (items && items.length > 0) {-->
+<!--                const resultElement = document.getElementById("result");-->
+
+<!--                // 모든 items 배열을 루프로 처리-->
+<!--                items.forEach(item => {-->
+<!--                    const fstvlNm = item.fstvlNm;-->
+<!--                    const opar = item.opar;-->
+<!--                    // const fstvlStartDate = item.fstvlStartDate;-->
+<!--                    // const fstvlEndDate = item.fstvlEndDate;-->
+<!--                    // const fstvlCo = item.fstvlCo;-->
+<!--                    // const rdnmadr = item.rdnmadr;-->
+
+<!--                    // 결과를 HTML에 추가-->
+<!--                    const itemElement = document.createElement("div");-->
+<!--                    itemElement.innerHTML = `<p>fstvlNm: ${fstvlNm}</p><p>opar: ${opar}</p>`;-->
+<!--                    resultElement.appendChild(itemElement);-->
+<!--                });-->
+<!--            } else {-->
+<!--                console.error("API 응답에 데이터 없음.");-->
+<!--            }-->
+<!--        })-->
+<!--            .catch(error => {-->
+<!--                console.error("API 요청 중 오류 발생:", error);-->
+<!--            });-->
+<!--</script>-->
+
+</html>

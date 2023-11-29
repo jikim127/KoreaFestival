@@ -1,54 +1,132 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
-      layout:decorate="~{layout/layout}">
-
+<html decorate="~{layout/layout}" lang="ko">
 <head>
-<link rel="stylesheet" href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .calendar {
+        width: 1500px;
+        margin: 50px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .year-month {
+        font-size: 35px;
+    }
+
+    .nav {
+        display: flex;
+        border: 1px solid #333333;
+        border-radius: 5px;
+    }
+
+    .nav-btn {
+        width: 28px;
+        height: 30px;
+        border: none;
+        font-size: 16px;
+        line-height: 34px;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    .go-today {
+        width: 75px;
+        border-left: 1px solid #333333;
+        border-right: 1px solid #333333;
+    }
+
+    .days {
+        display: flex;
+        margin: 25px 0 10px;
+    }
+
+    .day {
+        width: calc(100% / 7);
+        text-align: center;
+    }
+
+    .dates {
+        display: flex;
+        flex-flow: row wrap;
+        height: 1000px;
+        border-top: 1px solid #333333;
+        border-right: 1px solid #333333;
+    }
+
+    .date {
+        width: calc(100% / 7);
+        padding: 15px;
+        text-align: right;
+        border-bottom: 1px solid #333333;
+        border-left: 1px solid #333333;
+    }
+
+    .festival-items {
+        width: calc(100% / 7);
+        text-align: left;
+    }
+
+    .day:nth-child(7n + 1),
+    .date:nth-child(7n + 1) {
+        color: #D13E3E;
+    }
+
+    .day:nth-child(7n),
+    .date:nth-child(7n) {
+        color: #396EE2;
+    }
+
+    .other {
+        opacity: .3;
+    }
+
+    .today {
+        position: relative;
+        color: #FFFFFF;
+    }
+
+    .today::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: -1;
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-color: #FF0000;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        content: '';
+    }
+
+    </style>
 
 </head>
-
 <body>
 
-<!--<script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js">-->
-
-<!--    document.addEventListener("DOMContentLoaded", function() {-->
-
-<!--    // Toast UI Calendar 생성-->
-<!--    const Calendar = tui.Calendar;-->
-
-<!--    // Toast UI Calendar 구성하기-->
-<!--    const calendar = new Calendar('#calendar', {-->
-<!--        defaultView: 'month',-->
-<!--        template: {-->
-<!--            time(event) {-->
-<!--                const {start, end, title} = event;-->
-<!--                return `<span style="color: white;">${formatTime(start)}~${formatTime(end)} ${title}</span>`;-->
-<!--            },-->
-<!--            allday(event) {-->
-<!--                return `<span style="color: gray;">${event.title}</span>`;-->
-<!--            },-->
-<!--        },-->
-<!--        calendars: [-->
-<!--            {-->
-<!--                id: 'cal1',-->
-<!--                name: 'Personal',-->
-<!--                backgroundColor: '#03bd9e',-->
-<!--            },-->
-<!--            {-->
-<!--                id: 'cal2',-->
-<!--                name: 'Work',-->
-<!--                backgroundColor: '#00a9ff',-->
-<!--            },-->
-<!--        ],-->
-<!--    });-->
-<!--    });-->
-<!--</script>-->
-
-
-<div layout:fragment="content">
-
-<!-- Breadcrumb Section Begin -->
+<div fragment="content">
+    <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section">
         <div class="container">
             <div class="row">
@@ -66,236 +144,154 @@
     </section>
     <!-- Breadcrumb Section End -->
 
-
-    <!-- TOAST Calendar UI 적용 -->
-    <div id="calendar" style="height: 800px"></div>
-
-
-
-
-
-
     <!-- Schedule Table Section Begin -->
-    <section class="schedule-table-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="schedule-table-tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Marketing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Business</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Technology</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">Experience</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-5" role="tab">Event</a>
-                            </li>
-                        </ul><!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="schedule-table-content">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>
-                                                    <strong>SUN</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>MON</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>TUE</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>WED</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>THU</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>FRI</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>SAT</strong>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <th:block th:each="festivalList : ${festivalItemList}">
-                                                <tr>
-                                                    <td class="event-time">week1</td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:text="${#dates.createNow()}"></h5>
-                                                    </td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    </td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    </td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    <td class="break hover-bg">
-                                                    <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    </td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    </td>
-                                                    <td class="break hover-bg">
-                                                        <h5 th:if="${festivalList.getFstvlStartDate() != null and festivalList.getFstvlStartDate() == #dates.createNow()}"></h5>
-                                                    </td>
-                                                    </th:block>
-                                                </tr>
-                                            </th:block>
-                                            <tr>
-                                                <td class="event-time">week2</td>
-                                                <td class="hover-bg">
-                                                    <h5>WEEK2 - 7일 날짜순 나열</h5>
-                                                    <p><span>By</span> John Smith</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Social Website</h5>
-                                                    <p><span>By</span> Delia Mullins</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Introduce Technology</h5>
-                                                    <p><span>By</span> Bryan Clark</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Marketing Design</h5>
-                                                    <p><span>By</span> Ida Manning</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="event-time">week3</td>
-                                                <td class="hover-bg">
-                                                    <h5>WEEK3 - 7일 날짜순 나열</h5>
-                                                    <p><span>By</span> Mc Cage</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Conect People</h5>
-                                                    <p><span>By</span> James Colon</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Maximize CEO</h5>
-                                                    <p><span>By</span> Elmer Dunn</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Reinventing Experiences</h5>
-                                                    <p><span>By</span> Martha Fuller</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="event-time">week4</td>
-                                                <td class="hover-bg">
-                                                    <h5>WEEK4 - 7일 날짜순 나열</h5>
-                                                    <p><span>By</span> Thomas Munoz</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Reinventing Experiences</h5>
-                                                    <p><span>By</span> Mattie Hanson</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Camping</h5>
-                                                    <p><span>By</span> Rachel Arnold</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Social Website</h5>
-                                                    <p><span>By</span> Leonard Daniels</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="event-time">week5</td>
-                                                <td class="hover-bg">
-                                                    <h5>WEEK5 - 7일 날짜순 나열</h5>
-                                                    <p><span>By</span> Thomas Munoz</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Reinventing Experiences</h5>
-                                                    <p><span>By</span> Mattie Hanson</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Camping</h5>
-                                                    <p><span>By</span> Rachel Arnold</p>
-                                                </td>
-                                                <td class="hover-bg">
-                                                    <h5>Social Website</h5>
-                                                    <p><span>By</span> Leonard Daniels</p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> <!--tab-content END-->
-                    </div>
+    <div class="calendar">
+        <div class="header">
+            <div class="year-month"></div>
+            <div class="nav">
+                <button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
+                <button class="nav-btn go-today" onclick="goToday()">Today</button>
+                <button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="days">
+                <div class="day">일</div>
+                <div class="day">월</div>
+                <div class="day">화</div>
+                <div class="day">수</div>
+                <div class="day">목</div>
+                <div class="day">금</div>
+                <div class="day">토</div>
+            </div>
+            <div class="dates">
+                <div class="date" th:each="date : ${dates}" th:text="${date}">
+<!--                    <div class="festival-items" th:each="festivalList : ${festivalItemList}" th:text="${festivalList.getFstvlStartDate()}"></div>-->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <!-- Schedule Table Section End -->
-
-    <!-- Newslatter Section Begin -->
-    <section class="newslatter-section about-newslatter">
-        <div class="container">
-            <div class="newslatter-inner set-bg" data-setbg="img/newslatter-bg.jpg">
-                <div class="ni-text">
-                    <h3>Subscribe Newsletter</h3>
-                    <p>Subscribe to our newsletter and don’t miss anything</p>
-                </div>
-                <form action="#" class="ni-form">
-                    <input type="text" placeholder="Your email">
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        </div>
-    </section>
-    <!-- Newslatter Section End -->
-
-
 </div>
-
 
 <!-- 시작일을 설정하고 날짜를 표시하는 함수 -->
 <script th:inline="javascript">
-    function setStartDateAndDates(startDateClass, dateClass) {
-        const startDateCell = document.querySelector(startDateClass); // 시작일이 표시될 셀
-        const dateCells = document.querySelectorAll(dateClass); // 날짜를 표시할 셀들
+    let date = new Date();
+    let festivalList = [[${festivalItemList}]];
 
-        if (startDateCell) {
-            const startDate = new Date(); // 오늘을 시작일로 설정
-            const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+    const renderCalendar = () => {
+        const viewYear = date.getFullYear();
+        const viewMonth = date.getMonth();
 
-            // 시작일 셀에 오늘의 날짜를 표시
-            const dayOfWeek = weekDays[startDate.getDay()]; // 오늘의 요일
-            const dayOfMonth = startDate.getDate(); // 오늘의 날짜
-            startDateCell.textContent = `WEEK1 - ${dayOfWeek} ${dayOfMonth}일`;
+        // year-month 채우기
+        document.querySelector('.year-month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
 
-            // 날짜를 추가
-            dateCells.forEach(function(dateCell, index) {
-                const date = new Date(startDate);
-                date.setDate(startDate.getDate() + index);
+        // 지난 달 마지막 Date, 이번 달 마지막 Date
+        const prevLast = new Date(viewYear, viewMonth, 0);
+        const thisLast = new Date(viewYear, viewMonth + 1, 0);
 
-                const dayOfWeek = weekDays[date.getDay()]; // 요일
-                const dayOfMonth = date.getDate(); // 날짜
+        const PLDate = prevLast.getDate();
+        const PLDay = prevLast.getDay();
 
-                dateCell.textContent = `WEEK1 - ${dayOfWeek} ${dayOfMonth}일`;
-            });
+        const TLDate = thisLast.getDate();
+        const TLDay = thisLast.getDay();
+
+        // Dates 기본 배열들
+        const prevDates = [];
+        const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+        const nextDates = [];
+
+        // prevDates 계산
+        if (PLDay !== 6) {
+            for (let i = 0; i < PLDay + 1; i++) {
+                prevDates.unshift(PLDate - i);
+            }
         }
+
+        // nextDates 계산
+        for (let i = 1; i < 7 - TLDay; i++) {
+            nextDates.push(i)
+        }
+
+        // Dates 합치기
+        const dates = prevDates.concat(thisDates, nextDates);
+
+        // Dates 정리
+        const firstDateIndex = dates.indexOf(1);
+        const lastDateIndex = dates.lastIndexOf(TLDate);
+        dates.forEach((date, i) => {
+            const condition = i >= firstDateIndex && i < lastDateIndex + 1
+                ? 'this'
+                : 'other';
+
+            dates[i] = `<div class="date"><span class="${condition}">${date}</span></div>`;
+        })
+
+
+        // Dates 그리기
+        document.querySelector('.dates').innerHTML = dates.join('');
+
+        // const datesContainer = document.querySelector('.dates');
+        // datesContainer.innerHTML = '';
+        //
+        // dates.forEach((date, i) => {
+        //     const condition = i >= firstDateIndex && i < lastDateIndex + 1
+        //         ? 'this'
+        //         : 'other';
+        //
+        //     // 날짜에 해당하는 이벤트 가져오기
+        //     const eventForDate = festivalList.find(event => event.getFstvlStartDate() === date);
+        //
+        //     // 각 날짜에 대한 div 생성 및 이벤트 정보 포함
+        //     const dateDiv = document.createElement('div');
+        //     dateDiv.className = 'date';
+        //
+        //     const span = document.createElement('span');
+        //     span.className = condition;
+        //
+        //     if (eventForDate) {
+        //         // 이벤트 정보 포함
+        //         span.innerHTML = `<a href="/event/${eventForDate.getId()}">${date}</a>`;
+        //     } else {
+        //         span.textContent = date;
+        //     }
+        //
+        //     dateDiv.appendChild(span);
+        //     datesContainer.appendChild(dateDiv);
+        // });
+
+
+        // 오늘 날짜 그리기
+        const today = new Date();
+        if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+            for (let date of document.querySelectorAll('.this')) {
+                if (+date.innerText === today.getDate()) {
+                    date.classList.add('today');
+                    break;
+                }
+            }
+        }
+
     }
 
-    setStartDateAndDates('.event-time', '.break.hover-bg', 'h5');
+    renderCalendar();
+
+    const prevMonth = () => {
+        date.setMonth(date.getMonth() - 1);
+        renderCalendar();
+    }
+
+    const nextMonth = () => {
+        date.setMonth(date.getMonth() + 1);
+        renderCalendar();
+    }
+
+    const goToday = () => {
+        date = new Date();
+        renderCalendar();
+    }
+
 </script>
 
-
 </body>
-
 </html>
